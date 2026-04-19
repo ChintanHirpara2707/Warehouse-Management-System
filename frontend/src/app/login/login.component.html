@@ -1,0 +1,151 @@
+<div class="auth-container">
+
+  <!-- LEFT SIDE - FORM CONTENT -->
+  <div class="auth-content">
+    <div class="auth-box">
+
+      <div class="auth-header">
+        <h2>Welcome Back</h2>
+        <p class="subtitle">Login to <strong>AnantaWare</strong></p>
+      </div>
+
+      <form (ngSubmit)="login()" class="auth-form" *ngIf="!showForgot">
+        <div class="form-group">
+          <label>Email</label>
+          <input type="email" [(ngModel)]="email" name="email" required placeholder="krishna@company.com">
+        </div>
+
+        <div class="form-group password-group">
+          <label>Password</label>
+          <div class="input-with-icon">
+            <input [type]="showPassword ? 'text' : 'password'" [(ngModel)]="password" name="password" required
+              placeholder="••••••••">
+            <span class="eye-icon" (click)="togglePassword()">
+              <svg *ngIf="!showPassword" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"
+                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                class="feather feather-eye">
+                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                <circle cx="12" cy="12" r="3"></circle>
+              </svg>
+              <svg *ngIf="showPassword" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"
+                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                class="feather feather-eye-off">
+                <path
+                  d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24">
+                </path>
+                <line x1="1" y1="1" x2="23" y2="23"></line>
+              </svg>
+            </span>
+          </div>
+        </div>
+
+        <button type="submit" class="btn-primary">Login</button>
+
+        <div class="auth-message error" *ngIf="error">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"></circle>
+            <line x1="12" y1="8" x2="12" y2="12"></line>
+            <line x1="12" y1="16" x2="12.01" y2="16"></line>
+          </svg>
+          {{ error }}
+        </div>
+
+        <div class="auth-message success" *ngIf="success">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+            <polyline points="22 4 12 14.01 9 11.01"></polyline>
+          </svg>
+          {{ success }}
+        </div>
+      </form>
+
+      <!-- FORGOT PASSWORD SECTION -->
+      <div *ngIf="showForgot" class="auth-form slide-in">
+        <p class="subtitle" *ngIf="!otpRequested" style="margin-bottom: 20px;">
+          Enter your account email to receive an OTP.
+        </p>
+        <p class="subtitle" *ngIf="otpRequested" style="margin-bottom: 20px;">
+          Enter the OTP sent to your email and choose a new password.
+        </p>
+
+        <div class="form-group" *ngIf="!otpRequested">
+          <label>Email</label>
+          <input type="email" [(ngModel)]="email" name="fp-email" required placeholder="john@company.com">
+        </div>
+
+        <div *ngIf="!otpRequested">
+          <button class="btn-primary" (click)="requestOtp()">Send OTP</button>
+        </div>
+
+        <div *ngIf="otpRequested" class="auth-form">
+          <div class="form-group">
+            <label>OTP</label>
+            <input type="text" [(ngModel)]="otp" name="otp" required placeholder="000000">
+          </div>
+          <div class="form-group">
+            <label>New Password</label>
+            <input type="password" [(ngModel)]="newPassword" name="newPassword" required placeholder="••••••••">
+          </div>
+          <div class="form-group">
+            <label>Confirm Password</label>
+            <input type="password" [(ngModel)]="confirmPassword" name="confirmPassword" required placeholder="••••••••">
+          </div>
+          <button class="btn-primary" (click)="submitReset()">Reset Password</button>
+        </div>
+      </div>
+
+      <div class="footer-text-group">
+        <p class="footer-text" style="margin-top: 24px;">
+          <a href="#" (click)="showForgot = !showForgot; $event.preventDefault()">
+            {{ showForgot ? 'Back to Login' : 'Forgot Password?' }}
+          </a>
+        </p>
+        <p class="footer-text" style="margin-top: 12px;">
+          Don't have an account? <a routerLink="/register">Register here</a>
+        </p>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- RIGHT SIDE - BRANDING -->
+  <div class="auth-branding">
+    <div class="branding-content">
+      <img src="assets/अनंतावेयर.png" alt="AnantaWare Logo" class="branding-logo">
+      <h1>AnantaWare</h1>
+      <p>Warehouse Service & Inventory Management</p>
+
+      <div class="feature-list">
+        <div class="feature-item">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path
+              d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z">
+            </path>
+            <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
+            <line x1="12" y1="22.08" x2="12" y2="12"></line>
+          </svg>
+          <span>Intelligent Storage</span>
+        </div>
+        <div class="feature-item">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline>
+          </svg>
+          <span>Real-time Analytics</span>
+        </div>
+        <div class="feature-item">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+            <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+          </svg>
+          <span>Enterprise Security</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>

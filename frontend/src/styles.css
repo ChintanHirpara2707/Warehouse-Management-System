@@ -1,0 +1,861 @@
+/* AnantaWare — global design tokens, base, auth shell */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@400;500;600;700&display=swap');
+
+:root {
+  --aw-font: 'Outfit', 'Inter', system-ui, sans-serif;
+  --aw-font-body: 'Inter', system-ui, sans-serif;
+  --aw-bg-deep: #070a12;
+  --aw-bg-mid: #0c1224;
+  --aw-bg-light: #f4f7fb;
+  --aw-bg-lighter: #ffffff;
+  --aw-surface: rgba(18, 26, 48, 0.55);
+  --aw-surface-solid: #111827;
+  --aw-surface-elevated: rgba(255, 255, 255, 0.7);
+  --aw-border: rgba(99, 140, 255, 0.22);
+  --aw-border-soft: rgba(255, 255, 255, 0.08);
+  --aw-text: #e8eefc;
+  --aw-text-muted: #94a3c8;
+  --aw-text-strong: #ffffff;
+  --aw-accent: #5b8cff;
+  --aw-accent-2: #22d3ee;
+  --aw-accent-warm: #fbbf24;
+  --aw-danger: #f87171;
+  --aw-success: #4ade80;
+  --aw-shadow: 0 24px 48px rgba(0, 0, 0, 0.45);
+  --aw-glow: 0 0 40px rgba(91, 140, 255, 0.35);
+  --aw-radius: 16px;
+  --aw-radius-sm: 12px;
+  --aw-transition: 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+  --aw-toggle-bg: rgba(7, 10, 18, 0.72);
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: var(--aw-font-body);
+  color: var(--aw-text);
+  background: radial-gradient(1200px 600px at 10% -10%, rgba(91, 140, 255, 0.18), transparent 55%),
+    radial-gradient(900px 500px at 100% 0%, rgba(34, 211, 238, 0.12), transparent 50%),
+    linear-gradient(165deg, var(--aw-bg-deep) 0%, var(--aw-bg-mid) 45%, #050810 100%);
+  background-attachment: fixed;
+  -webkit-font-smoothing: antialiased;
+}
+
+body.light-theme {
+  --aw-bg-deep: #eef4fb;
+  --aw-bg-mid: #f8fbff;
+  --aw-surface: rgba(255, 255, 255, 0.78);
+  --aw-surface-solid: #ffffff;
+  --aw-surface-elevated: rgba(255, 255, 255, 0.88);
+  --aw-border: rgba(91, 140, 255, 0.18);
+  --aw-border-soft: rgba(15, 23, 42, 0.08);
+  --aw-text: #172033;
+  --aw-text-muted: #5f6f89;
+  --aw-text-strong: #08111f;
+  --aw-badge-blue-text: #1e429f;
+  --aw-badge-gold-text: #8a5200;
+  --aw-badge-green-text: #166534;
+  --aw-badge-red-text: #b42318;
+  --aw-badge-purple-text: #6d28d9;
+  --aw-badge-slate-text: #475467;
+  --aw-shadow: 0 20px 42px rgba(15, 23, 42, 0.12);
+  --aw-glow: 0 0 30px rgba(91, 140, 255, 0.16);
+  --aw-toggle-bg: rgba(255, 255, 255, 0.82);
+  background: radial-gradient(1000px 540px at 10% -10%, rgba(91, 140, 255, 0.15), transparent 55%),
+    radial-gradient(820px 480px at 100% 0%, rgba(34, 211, 238, 0.12), transparent 50%),
+    linear-gradient(180deg, #f4f8fe 0%, #edf4fb 48%, #e7eef7 100%);
+}
+
+body.light-theme .auth-box,
+body.light-theme .feature-list,
+body.light-theme .section-card,
+body.light-theme .stat-card,
+body.light-theme .profile-details,
+body.light-theme .profile-sidebar,
+body.light-theme .profile-main,
+body.light-theme .card,
+body.light-theme .chart-card,
+body.light-theme .billing-card,
+body.light-theme .report-card,
+body.light-theme .invoice-card,
+body.light-theme .inventory-card,
+body.light-theme .payment-card,
+body.light-theme .request-card,
+body.light-theme .modal-content,
+body.light-theme .warehouse-scene {
+  background: linear-gradient(145deg, rgba(255, 255, 255, 0.92) 0%, rgba(246, 249, 255, 0.82) 100%) !important;
+  border-color: rgba(15, 23, 42, 0.08) !important;
+  box-shadow: 0 20px 42px rgba(15, 23, 42, 0.12) !important;
+}
+
+body.light-theme .dashboard-shell,
+body.light-theme .welcome,
+body.light-theme .profile-page,
+body.light-theme .auth-container {
+  color: var(--aw-text) !important;
+}
+
+body.light-theme .dashboard-shell {
+  background: radial-gradient(900px 500px at 0% 0%, rgba(91, 140, 255, 0.14), transparent 50%),
+    radial-gradient(700px 400px at 100% 20%, rgba(34, 211, 238, 0.1), transparent 45%),
+    linear-gradient(180deg, #eff5fd 0%, #e7eef7 100%) !important;
+}
+
+body.light-theme .sidebar,
+body.light-theme .navbar,
+/* body.light-theme .top-header, */
+body.light-theme .profile-menu,
+body.light-theme .modal-header,
+body.light-theme .auth-branding {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.9) 0%, rgba(244, 248, 255, 0.86) 100%) !important;
+  border-color: rgba(15, 23, 42, 0.08) !important;
+  box-shadow: 0 14px 32px rgba(15, 23, 42, 0.1) !important;
+}
+
+body.light-theme .welcome-bg {
+  background: radial-gradient(900px 480px at 15% 10%, rgba(91, 140, 255, 0.18), transparent 55%),
+    radial-gradient(700px 400px at 85% 20%, rgba(34, 211, 238, 0.12), transparent 50%),
+    linear-gradient(168deg, #f9fbff 0%, #eef5fc 40%, #e7eef7 100%) !important;
+}
+
+body.light-theme .welcome-grid {
+  background-image: linear-gradient(rgba(15, 23, 42, 0.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(15, 23, 42, 0.06) 1px, transparent 1px);
+}
+
+body.light-theme .welcome-noise {
+  opacity: 0.03;
+}
+
+body.light-theme .dock-lights span {
+  box-shadow: 0 0 14px rgba(245, 158, 11, 0.45);
+}
+
+body.light-theme .nav-item,
+body.light-theme .link-ghost,
+body.light-theme .breadcrumb,
+body.light-theme .profile-role,
+body.light-theme .section-description,
+body.light-theme .welcome-copy .eyebrow,
+body.light-theme .signal-label,
+body.light-theme .ops-kicker,
+body.light-theme .ops-note,
+body.light-theme .scene-card-label,
+body.light-theme .scene-card p,
+body.light-theme .dispatch-list span,
+body.light-theme .subtitle,
+body.light-theme .profile-subtitle,
+body.light-theme .chart-subtitle,
+body.light-theme .tagline,
+body.light-theme .payment-meta,
+body.light-theme .instructions,
+body.light-theme .panel-placeholder,
+body.light-theme .muted,
+body.light-theme .loading,
+body.light-theme .loading-message,
+body.light-theme .loading-container,
+body.light-theme .empty-chart-data,
+body.light-theme .stat-title,
+body.light-theme .stat-subtitle,
+body.light-theme .text-muted,
+body.light-theme .footer-text,
+body.light-theme .auth-header .subtitle,
+body.light-theme .form-group label,
+body.light-theme .input-group label,
+body.light-theme .input-group small,
+body.light-theme .label,
+body.light-theme .lede,
+body.light-theme .empty-state,
+body.light-theme .request-details,
+body.light-theme .setting-info p {
+  color: var(--aw-text-muted) !important;
+}
+
+body.light-theme .page-title,
+body.light-theme .profile-name,
+body.light-theme .section-header h2,
+body.light-theme .section-title,
+body.light-theme .stat-value,
+body.light-theme .signal-card strong,
+body.light-theme .ops-card strong,
+body.light-theme .ops-value-row span,
+body.light-theme .scene-card strong,
+body.light-theme .title,
+body.light-theme h4,
+body.light-theme .request-id,
+body.light-theme .invoice-left strong,
+body.light-theme .invoice-title h2,
+body.light-theme .customer-name,
+body.light-theme .value,
+body.light-theme .request-details strong,
+body.light-theme .method-name,
+body.light-theme .readonly-input,
+body.light-theme .auth-header h2,
+body.light-theme .branding-content h1,
+body.light-theme .setting-info h3,
+body.light-theme .modal-header h3,
+body.light-theme .request-header h3,
+body.light-theme .chart-header h3,
+body.light-theme .chart-header h4,
+body.light-theme .profile-header h2 {
+  color: var(--aw-text-strong) !important;
+}
+
+body.light-theme .welcome-copy h1,
+body.light-theme .amount,
+body.light-theme .amount-badge .amount,
+body.light-theme .grand-total .value,
+body.light-theme .billing-highlight,
+body.light-theme .invoice-total,
+body.light-theme .payment-title,
+body.light-theme .payment-subtitle strong {
+  background: none !important;
+  -webkit-background-clip: initial !important;
+  background-clip: initial !important;
+  color: var(--aw-text-strong) !important;
+  filter: none !important;
+}
+
+body.light-theme .nav-item:hover,
+body.light-theme .nav-item.active,
+body.light-theme .btn-secondary,
+body.light-theme .action-pill.secondary,
+body.light-theme .link-ghost:hover,
+body.light-theme .profile-menu:hover,
+body.light-theme .setting-item,
+body.light-theme .message,
+body.light-theme .signal-card,
+body.light-theme .ops-card,
+body.light-theme .scene-card,
+body.light-theme .wh-shelf,
+body.light-theme .invoice,
+body.light-theme .meta-col,
+body.light-theme .total-block,
+body.light-theme .amount-badge,
+body.light-theme .payment-methods-section,
+body.light-theme .payment-footer,
+body.light-theme .payment-header,
+body.light-theme .qr-wrapper,
+body.light-theme .upi-box,
+body.light-theme .method-card,
+body.light-theme .method-card.active,
+body.light-theme .profile-header,
+body.light-theme .profile-container,
+body.light-theme .alert,
+body.light-theme .loading,
+body.light-theme .loading-message,
+body.light-theme .loading-container,
+body.light-theme .empty-state,
+body.light-theme .message.success,
+body.light-theme .message.error {
+  background: rgba(255, 255, 255, 0.72) !important;
+  border-color: rgba(15, 23, 42, 0.08) !important;
+}
+
+body.light-theme .signal-card,
+body.light-theme .ops-card,
+body.light-theme .scene-card {
+  background: linear-gradient(145deg, rgba(255, 255, 255, 0.92), rgba(242, 247, 255, 0.84)) !important;
+  box-shadow: 0 16px 30px rgba(15, 23, 42, 0.1) !important;
+}
+
+body.light-theme .ops-card-primary {
+  background: linear-gradient(135deg, rgba(245, 158, 11, 0.14), rgba(59, 130, 246, 0.14)) !important;
+}
+
+body.light-theme .dispatch-list span {
+  background: rgba(91, 140, 255, 0.1) !important;
+  border-color: rgba(15, 23, 42, 0.08) !important;
+}
+
+body.light-theme .payment-methods-section,
+body.light-theme .payment-footer,
+body.light-theme .payment-header,
+body.light-theme .meta-col,
+body.light-theme .total-block,
+body.light-theme .qr-wrapper,
+body.light-theme .upi-box {
+  background: rgba(255, 255, 255, 0.82) !important;
+}
+
+body.light-theme .invoice,
+body.light-theme .request-card,
+body.light-theme .chart-card,
+body.light-theme .method-card,
+body.light-theme .profile-container {
+  background: linear-gradient(145deg, rgba(255, 255, 255, 0.92) 0%, rgba(246, 249, 255, 0.82) 100%) !important;
+}
+
+body.light-theme .method-card.active {
+  background: linear-gradient(135deg, rgba(91, 140, 255, 0.12), rgba(34, 211, 238, 0.08)) !important;
+}
+
+body.light-theme .nav-divider {
+  background: linear-gradient(90deg, transparent, rgba(15, 23, 42, 0.14), transparent) !important;
+}
+
+body.light-theme .data-table,
+body.light-theme table {
+  background: rgba(255, 255, 255, 0.86) !important;
+  color: var(--aw-text) !important;
+}
+
+body.light-theme .data-table thead,
+body.light-theme thead {
+  background: rgba(232, 240, 250, 0.9) !important;
+}
+
+body.light-theme .data-table th,
+body.light-theme .data-table td,
+body.light-theme td,
+body.light-theme th {
+  color: var(--aw-text) !important;
+  border-color: rgba(15, 23, 42, 0.08) !important;
+}
+
+body.light-theme .data-table tbody tr:hover td {
+  background: rgba(91, 140, 255, 0.08) !important;
+}
+
+body.light-theme input,
+body.light-theme select,
+body.light-theme textarea,
+body.light-theme .styled-input,
+body.light-theme .filter-input,
+body.light-theme .readonly-input {
+  color: var(--aw-text) !important;
+  background: rgba(255, 255, 255, 0.84) !important;
+  border-color: rgba(15, 23, 42, 0.12) !important;
+}
+
+body.light-theme input::placeholder,
+body.light-theme textarea::placeholder,
+body.light-theme .styled-input::placeholder,
+body.light-theme .filter-input::placeholder {
+  color: rgba(95, 111, 137, 0.82) !important;
+}
+
+body.light-theme .btn-secondary,
+body.light-theme .action-pill.secondary,
+body.light-theme .modal-close,
+body.light-theme .copy-btn,
+body.light-theme .upi-pill,
+body.light-theme .btn-toggle {
+  color: var(--aw-text) !important;
+}
+
+body.light-theme .currency,
+body.light-theme .input-icon {
+  color: var(--aw-badge-blue-text) !important;
+}
+
+body.light-theme .method-icon {
+  color: var(--aw-text-muted) !important;
+  background: rgba(91, 140, 255, 0.08) !important;
+}
+
+body.light-theme .method-card.active .method-icon,
+body.light-theme .copy-btn {
+  color: #ffffff !important;
+}
+
+body.light-theme .copy-btn {
+  background: linear-gradient(135deg, rgba(91, 140, 255, 0.6), rgba(34, 211, 238, 0.55)) !important;
+  border-left: 1px solid rgba(15, 23, 42, 0.08);
+}
+
+body.light-theme .upi-pill,
+body.light-theme .btn-toggle.active {
+  background: rgba(91, 140, 255, 0.12) !important;
+  border-color: rgba(91, 140, 255, 0.22) !important;
+}
+
+body.light-theme .alert-success,
+body.light-theme .message.success {
+  color: var(--aw-badge-green-text) !important;
+  background: rgba(34, 197, 94, 0.14) !important;
+  border-color: rgba(34, 197, 94, 0.22) !important;
+}
+
+body.light-theme .alert-error,
+body.light-theme .message.error,
+body.light-theme .message {
+  color: var(--aw-badge-red-text) !important;
+  background: rgba(239, 68, 68, 0.1) !important;
+  border-color: rgba(239, 68, 68, 0.2) !important;
+}
+
+body.light-theme .badge,
+body.light-theme .badge-success,
+body.light-theme .badge-warning,
+body.light-theme .badge-danger,
+body.light-theme .badge-active,
+body.light-theme .badge-inactive,
+body.light-theme .badge-pending,
+body.light-theme .badge-scheduled,
+body.light-theme .badge-transit,
+body.light-theme .badge-inbound,
+body.light-theme .badge-outbound,
+body.light-theme .badge-cancelled,
+body.light-theme .badge-rejected,
+body.light-theme .badge-completed,
+body.light-theme .badge-customer,
+body.light-theme .badge-manager,
+body.light-theme .badge-admin,
+body.light-theme .badge-billing,
+body.light-theme .badge.success,
+body.light-theme .badge.danger {
+  text-shadow: none !important;
+}
+
+body.light-theme .badge-success,
+body.light-theme .badge-active,
+body.light-theme .badge-completed,
+body.light-theme .badge-inbound,
+body.light-theme .badge.success {
+  color: var(--aw-badge-green-text) !important;
+  background: rgba(34, 197, 94, 0.16) !important;
+  border-color: rgba(34, 197, 94, 0.24) !important;
+}
+
+body.light-theme .badge-warning,
+body.light-theme .badge-pending,
+body.light-theme .badge-outbound,
+body.light-theme .badge-billing {
+  color: var(--aw-badge-gold-text) !important;
+  background: rgba(245, 158, 11, 0.16) !important;
+  border-color: rgba(245, 158, 11, 0.24) !important;
+}
+
+body.light-theme .badge-danger,
+body.light-theme .badge-rejected,
+body.light-theme .badge-admin,
+body.light-theme .badge.danger {
+  color: var(--aw-badge-red-text) !important;
+  background: rgba(239, 68, 68, 0.14) !important;
+  border-color: rgba(239, 68, 68, 0.22) !important;
+}
+
+body.light-theme .badge-scheduled,
+body.light-theme .badge-customer {
+  color: var(--aw-badge-blue-text) !important;
+  background: rgba(59, 130, 246, 0.14) !important;
+  border-color: rgba(59, 130, 246, 0.22) !important;
+}
+
+body.light-theme .badge-transit,
+body.light-theme .badge-manager {
+  color: var(--aw-badge-purple-text) !important;
+  background: rgba(139, 92, 246, 0.14) !important;
+  border-color: rgba(139, 92, 246, 0.22) !important;
+}
+
+body.light-theme .badge-inactive,
+body.light-theme .badge-cancelled {
+  color: var(--aw-badge-slate-text) !important;
+  background: rgba(100, 116, 139, 0.12) !important;
+  border-color: rgba(100, 116, 139, 0.2) !important;
+}
+
+body.light-theme .table-container,
+body.light-theme .form-actions,
+body.light-theme .modal-header,
+body.light-theme .auth-branding,
+body.light-theme .auth-box,
+body.light-theme .feature-list,
+body.light-theme .setting-item,
+body.light-theme .wh-platform,
+body.light-theme .wh-floor,
+body.light-theme .wh-back,
+body.light-theme .request-header,
+body.light-theme .request-footer,
+body.light-theme .section-header,
+body.light-theme .chart-header,
+body.light-theme .invoice-header,
+body.light-theme .invoice-footer-grid,
+body.light-theme .bill-to-section h3,
+body.light-theme .form-section h3,
+body.light-theme .payment-header,
+body.light-theme .payment-methods-section,
+body.light-theme .payment-footer,
+body.light-theme .upi-box {
+  border-color: rgba(15, 23, 42, 0.08) !important;
+}
+
+body.light-theme .wh-platform,
+body.light-theme .wh-floor,
+body.light-theme .wh-back {
+  background: linear-gradient(180deg, rgba(91, 140, 255, 0.12), rgba(227, 236, 247, 0.8)) !important;
+}
+
+body.light-theme .badge.neutral {
+  color: var(--aw-badge-slate-text) !important;
+  background: rgba(100, 116, 139, 0.12) !important;
+  border-color: rgba(100, 116, 139, 0.2) !important;
+}
+
+body.light-theme .badge.info {
+  color: var(--aw-badge-blue-text) !important;
+  background: rgba(59, 130, 246, 0.14) !important;
+  border-color: rgba(59, 130, 246, 0.22) !important;
+}
+
+body.light-theme .badge.warning {
+  color: var(--aw-badge-gold-text) !important;
+  background: rgba(245, 158, 11, 0.16) !important;
+  border-color: rgba(245, 158, 11, 0.24) !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+/* ——— Shared auth (login / register) ——— */
+.auth-container {
+  display: flex;
+  min-height: 100vh;
+  width: 100%;
+  font-family: var(--aw-font);
+  position: relative;
+  overflow: hidden;
+}
+
+.auth-container::before {
+  content: '';
+  position: absolute;
+  inset: -20%;
+  background: radial-gradient(circle at 30% 20%, rgba(91, 140, 255, 0.15), transparent 45%),
+    radial-gradient(circle at 80% 60%, rgba(34, 211, 238, 0.1), transparent 40%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.auth-content {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: clamp(24px, 4vw, 48px);
+  position: relative;
+  z-index: 1;
+}
+
+.auth-box {
+  width: 100%;
+  max-width: 440px;
+  padding: clamp(28px, 4vw, 40px);
+  border-radius: calc(var(--aw-radius) + 4px);
+  background: linear-gradient(145deg, rgba(255, 255, 255, 0.07) 0%, rgba(255, 255, 255, 0.02) 100%);
+  border: 1px solid var(--aw-border-soft);
+  box-shadow: var(--aw-shadow), inset 0 1px 0 rgba(255, 255, 255, 0.06);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+}
+
+.auth-header {
+  margin-bottom: 28px;
+}
+
+.auth-header h2 {
+  font-family: var(--aw-font);
+  font-size: clamp(1.75rem, 4vw, 2rem);
+  font-weight: 700;
+  color: var(--aw-text);
+  margin: 0 0 8px;
+  letter-spacing: -0.02em;
+}
+
+.auth-header .subtitle {
+  font-size: 15px;
+  color: var(--aw-text-muted);
+  margin: 0;
+}
+
+.auth-header strong {
+  color: var(--aw-accent-2);
+  font-weight: 600;
+}
+
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.auth-form .form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.auth-form .form-group label {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--aw-text-muted);
+}
+
+.auth-form .form-group input,
+.auth-form .form-group select {
+  width: 100%;
+  padding: 12px 16px;
+  border: 1px solid var(--aw-border-soft);
+  border-radius: var(--aw-radius-sm);
+  font-size: 15px;
+  color: var(--aw-text);
+  background: rgba(7, 10, 18, 0.45);
+  font-family: var(--aw-font-body);
+  transition: border-color var(--aw-transition), box-shadow var(--aw-transition);
+}
+
+.auth-form .form-group input::placeholder {
+  color: rgba(148, 163, 200, 0.65);
+}
+
+.auth-form .form-group input:focus,
+.auth-form .form-group select:focus {
+  outline: none;
+  border-color: rgba(91, 140, 255, 0.55);
+  box-shadow: 0 0 0 3px rgba(91, 140, 255, 0.2);
+}
+
+.input-with-icon {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.input-with-icon input {
+  padding-right: 48px;
+}
+
+.eye-icon {
+  position: absolute;
+  right: 14px;
+  color: var(--aw-text-muted);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color var(--aw-transition);
+  background: none;
+  border: none;
+}
+
+.eye-icon:hover {
+  color: var(--aw-text);
+}
+
+.auth-container .btn-primary {
+  margin-top: 8px;
+  width: 100%;
+  padding: 14px;
+  border: none;
+  border-radius: var(--aw-radius-sm);
+  font-size: 15px;
+  font-weight: 600;
+  font-family: var(--aw-font);
+  cursor: pointer;
+  color: #0a0f1a;
+  background: linear-gradient(135deg, var(--aw-accent) 0%, var(--aw-accent-2) 100%);
+  box-shadow: 0 8px 24px rgba(91, 140, 255, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.25);
+  transition: transform var(--aw-transition), box-shadow var(--aw-transition), filter var(--aw-transition);
+}
+
+.auth-container .btn-primary:hover {
+  transform: translateY(-2px);
+  filter: brightness(1.05);
+  box-shadow: 0 12px 32px rgba(91, 140, 255, 0.45), var(--aw-glow);
+}
+
+.auth-container .btn-primary:active {
+  transform: translateY(0);
+}
+
+.auth-message {
+  margin-top: 12px;
+  padding: 12px 16px;
+  border-radius: var(--aw-radius-sm);
+  font-size: 14px;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border: 1px solid transparent;
+}
+
+.auth-message.error {
+  background: rgba(248, 113, 113, 0.12);
+  color: #fecaca;
+  border-color: rgba(248, 113, 113, 0.35);
+}
+
+.auth-message.success {
+  background: rgba(74, 222, 128, 0.12);
+  color: #bbf7d0;
+  border-color: rgba(74, 222, 128, 0.35);
+}
+
+.footer-text-group {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.footer-text {
+  text-align: center;
+  font-size: 14px;
+  color: var(--aw-text-muted);
+  margin: 0;
+}
+
+.auth-container > .auth-content .footer-text {
+  margin-top: 28px;
+}
+
+.footer-text a {
+  color: var(--aw-accent-2);
+  font-weight: 600;
+  text-decoration: none;
+  transition: color var(--aw-transition);
+}
+
+.footer-text a:hover {
+  color: #fff;
+  text-decoration: underline;
+}
+
+.auth-branding {
+  flex: 1.15;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 40px;
+  position: relative;
+  z-index: 1;
+  border-left: 1px solid var(--aw-border-soft);
+  background: linear-gradient(160deg, rgba(91, 140, 255, 0.08) 0%, transparent 50%, rgba(34, 211, 238, 0.06) 100%);
+}
+
+.auth-branding::after {
+  content: '';
+  position: absolute;
+  inset: 10%;
+  border-radius: 24px;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  pointer-events: none;
+  box-shadow: inset 0 0 60px rgba(91, 140, 255, 0.06);
+}
+
+.branding-content {
+  max-width: 480px;
+  text-align: center;
+  position: relative;
+  z-index: 2;
+}
+
+.branding-logo {
+  width: 140px;
+  height: auto;
+  margin-bottom: 28px;
+  filter: drop-shadow(0 12px 32px rgba(91, 140, 255, 0.35));
+}
+
+.branding-content h1 {
+  font-family: var(--aw-font);
+  font-size: clamp(1.75rem, 4vw, 2.25rem);
+  font-weight: 700;
+  color: var(--aw-text);
+  margin: 0 0 12px;
+  letter-spacing: -0.03em;
+}
+
+.branding-content > p {
+  font-size: 17px;
+  color: var(--aw-text-muted);
+  margin: 0 0 40px;
+}
+
+.feature-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  text-align: left;
+  padding: 28px;
+  border-radius: var(--aw-radius);
+  background: rgba(7, 10, 18, 0.5);
+  border: 1px solid var(--aw-border-soft);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  box-shadow: var(--aw-shadow);
+}
+
+.feature-item {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  color: var(--aw-text);
+  font-size: 15px;
+  font-weight: 500;
+}
+
+.feature-item svg {
+  color: var(--aw-accent-2);
+  background: rgba(91, 140, 255, 0.15);
+  padding: 8px;
+  border-radius: 10px;
+  width: 40px;
+  height: 40px;
+  flex-shrink: 0;
+}
+
+.slide-in {
+  animation: awSlideIn 0.35s ease-out forwards;
+}
+
+@keyframes awSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 992px) {
+  .auth-branding {
+    display: none;
+  }
+
+  .auth-container {
+    background: transparent;
+  }
+}
+
+@media (max-width: 480px) {
+  .auth-header h2 {
+    font-size: 1.5rem;
+  }
+}

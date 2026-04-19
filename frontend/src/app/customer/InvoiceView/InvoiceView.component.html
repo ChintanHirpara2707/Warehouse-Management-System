@@ -1,0 +1,121 @@
+<div class="invoice-page" *ngIf="!loading && invoice">
+  <div class="invoice-card">
+
+    <!-- Invoice Header -->
+    <div class="invoice-header">
+      <div class="brand">
+        <img src="assets/अनंतावेयर.png" alt="AnantaWare Logo" class="brand-logo" />
+        <p class="tagline">Warehouse Service & Inventory Management</p>
+      </div>
+      <div class="invoice-title">
+        <h2>INVOICE</h2>
+        <p class="muted">#{{ invoice.invoiceNumber }}</p>
+      </div>
+    </div>
+
+    <!-- Meta Information Grid -->
+    <div class="meta-row">
+      <div class="meta-col">
+        <div class="label">Date Issued</div>
+        <div class="value">{{ invoice.invoiceDate | date: 'mediumDate' }}</div>
+      </div>
+      <div class="meta-col">
+        <div class="label">Due Date</div>
+        <div class="value">{{ invoice.dueDate | date: 'mediumDate' }}</div>
+      </div>
+      <div class="meta-col">
+        <div class="label">Status</div>
+        <div class="value">
+          <span class="badge" [class.badge-success]="invoice.status === 'Paid'"
+            [class.badge-warning]="invoice.status === 'Pending'" [class.badge-danger]="invoice.status === 'Overdue'">
+            {{ invoice.status }}
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bill To Section -->
+    <div class="bill-to-section">
+      <h3>Bill To:</h3>
+      <div class="customer-info" *ngIf="invoice.customer">
+        <p class="customer-name">{{ invoice.customer.name }}</p>
+        <p class="muted">{{ invoice.customer.email }}</p>
+        <p class="muted" *ngIf="invoice.customer.address">{{ invoice.customer.address }}</p>
+      </div>
+    </div>
+
+    <!-- Service Details Table -->
+    <div class="section">
+      <h3>Service Details</h3>
+      <div class="table-wrapper">
+        <table>
+          <thead>
+            <tr>
+              <th>Service Type</th>
+              <th>Description / Item</th>
+              <th>Period</th>
+              <th>Location</th>
+              <th class="text-right">Qty</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngIf="invoice.service">
+              <td>
+                <span class="badge" [class.badge-inbound]="invoice.service.type === 'Inbound'"
+                  [class.badge-outbound]="invoice.service.type === 'Outbound'">
+                  {{ invoice.service.type }}
+                </span>
+              </td>
+              <td><strong>{{ invoice.service.item }}</strong></td>
+              <td class="muted">
+                {{ invoice.service.startDate | date: 'shortDate' }} - {{ invoice.service.endDate | date: 'shortDate' }}
+              </td>
+              <td>{{ invoice.location || 'N/A' }}</td>
+              <td class="text-right">{{ invoice.service.qty }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Payment & Totals -->
+    <div class="invoice-footer-grid">
+      <div class="payment-info">
+        <div *ngIf="invoice.paymentMethod">
+          <div class="label">Payment Method</div>
+          <div class="value">
+            {{ invoice.paymentMethod }}
+            <div *ngIf="invoice.paymentRef" class="muted mt-1">Ref: {{ invoice.paymentRef }}</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="total-block">
+        <div class="total-row">
+          <span class="label">Subtotal</span>
+          <span class="value">₹{{ invoice.amount.toLocaleString('en-US', { minimumFractionDigits: 2 }) }}</span>
+        </div>
+        <div class="total-row grand-total">
+          <span class="label">Total Amount</span>
+          <span class="value">₹{{ invoice.amount.toLocaleString('en-US', { minimumFractionDigits: 2 }) }}</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Actions -->
+    <div class="invoice-actions no-print">
+      <button type="button" class="btn btn-secondary" (click)="goBack()">
+        Back to Billing
+      </button>
+
+      <button type="button" class="btn btn-primary" (click)="downloadInvoice()" [disabled]="generatingPdf">
+        <span *ngIf="!generatingPdf">Download PDF</span>
+        <span *ngIf="generatingPdf">Generating...</span>
+      </button>
+    </div>
+
+  </div>
+</div>
+
+<div *ngIf="loading" class="loading">Loading invoice template...</div>
+<div *ngIf="!loading && errorMessage" class="message error">{{ errorMessage }}</div>

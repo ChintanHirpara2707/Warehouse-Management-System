@@ -1,0 +1,107 @@
+<div class="section-card">
+  <div class="section-header">
+    <h2 class="section-title">Service Requests</h2>
+    <button class="btn btn-primary" (click)="newRequest()">
+      New Request
+    </button>
+  </div>
+
+  <div *ngIf="errorMessage" class="message error" (click)="errorMessage = ''">
+    {{ errorMessage }} <span class="close">×</span>
+  </div>
+  <div *ngIf="successMessage" class="message success" (click)="successMessage = ''">
+    {{ successMessage }} <span class="close">×</span>
+  </div>
+
+  <div *ngIf="loading" class="loading">Loading service requests...</div>
+
+  <!-- FORM -->
+  <div *ngIf="showForm" class="section-card" style="margin-bottom:20px;">
+    <div class="filters-row">
+
+      <select class="filter-input" [(ngModel)]="requestType">
+        <option value="Inbound">Inbound</option>
+        <!-- <option value="Outbound">Outbound</option> -->
+      </select>
+
+      <input
+        class="filter-input"
+        type="text"
+        placeholder="Item name"
+        [(ngModel)]="itemName"
+      >
+
+      <input
+        class="filter-input"
+        type="number"
+        placeholder="Quantity"
+        [(ngModel)]="quantity"
+      >
+
+      <input
+        class="filter-input"
+        type="date"
+        [(ngModel)]="startDate"
+      >
+
+      <input
+        class="filter-input"
+        type="date"
+        [(ngModel)]="endDate"
+      >
+
+      <button class="btn btn-success" (click)="submitRequest()">
+        {{ isEditMode ? 'Update Request' : 'Send Request' }}
+      </button>
+
+      <button class="btn btn-secondary" (click)="resetForm()">
+        Cancel
+      </button>
+
+    </div>
+  </div>
+
+  <!-- REQUEST LIST -->
+  <div class="request-grid">
+    <div class="request-card" *ngFor="let req of requests; let i = index">
+
+      <div class="request-header">
+        <div class="request-id">
+          {{ req.type }} – {{ req.id }}
+        </div>
+
+        <span
+          class="badge"
+          [ngClass]="{
+            'neutral': req.status === 'Pending',
+            'info': req.status === 'Scheduled',
+            'warning': req.status === 'In Transit'
+          }"
+        >
+          {{ req.status }}
+        </span>
+      </div>
+
+      <div class="request-details">
+        <p><strong>Item:</strong> {{ req.item }}</p>
+        <p><strong>Qty:</strong> {{ req.qty }}</p>
+        <p><strong>Start:</strong> {{ req.startDate }}</p>
+        <p><strong>End:</strong> {{ req.endDate }}</p>
+      </div>
+
+      <div class="request-footer">
+        <button class="btn btn-secondary btn-small" (click)="editRequest(i)">
+          Edit
+        </button>
+        <button class="btn btn-danger btn-small" (click)="deleteRequest(req._id || req.id)" *ngIf="req.status === 'Pending'">
+          Delete
+        </button>
+      </div>
+
+    </div>
+
+    <div *ngIf="requests.length === 0" style="text-align:center; color:#64748b;">
+      No requests yet
+    </div>
+  </div>
+</div>

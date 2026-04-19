@@ -1,0 +1,20 @@
+<div class="app-shell" [class.light-theme]="isLightTheme">
+  <button
+    type="button"
+    class="theme-toggle"
+    [style.left.px]="togglePosition.x"
+    [style.top.px]="togglePosition.y"
+    (click)="toggleTheme()"
+    (pointerdown)="startDragging($event)"
+    (pointermove)="dragToggle($event)"
+    (pointerup)="stopDragging($event)"
+    (pointercancel)="stopDragging($event)"
+    [attr.aria-pressed]="isLightTheme"
+    [attr.aria-label]="isLightTheme ? 'Switch to dark mode' : 'Switch to light mode'"
+    [title]="isLightTheme ? 'Switch to dark mode' : 'Switch to light mode'">
+    <span class="theme-toggle__icon" aria-hidden="true">{{ isLightTheme ? '☀' : '☾' }}</span>
+    <span class="theme-toggle__label">{{ isLightTheme ? 'Light mode' : 'Dark mode' }}</span>
+  </button>
+
+  <router-outlet></router-outlet>
+</div>

@@ -1,0 +1,67 @@
+<div class="section-card">
+  <div class="section-header">
+    <h2 class="section-title">Billing & Payments</h2>
+  </div>
+
+  <div *ngIf="successMessage" class="message success" (click)="successMessage = ''">
+    {{ successMessage }} <span class="close">×</span>
+  </div>
+  <div *ngIf="errorMessage" class="message error" (click)="errorMessage = ''">
+    {{ errorMessage }} <span class="close">×</span>
+  </div>
+
+  <div *ngIf="loading" class="loading">Loading invoices...</div>
+
+  <div *ngFor="let invoice of invoices" class="invoice">
+  <!-- LEFT -->
+  <div class="invoice-left">
+    <strong>Invoice #{{ invoice.invoiceNumber }}</strong>
+    <p *ngIf="invoice.status === 'Pending'">
+      Due: {{ invoice.dueDate | date:'mediumDate' }}
+    </p>
+    <p *ngIf="invoice.status === 'Paid' && invoice.paidDate">
+      Paid: {{ invoice.paidDate | date:'mediumDate' }}
+    </p>
+  </div>
+
+  <!-- MIDDLE -->
+  <div class="amount">
+    ₹{{ invoice.amount.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) }}
+  </div>
+
+  <!-- RIGHT -->
+  <div class="invoice-actions">
+    <button
+      class="btn btn-small btn-secondary"
+      (click)="viewInvoiceDetails(invoice)">
+      View Details
+    </button>
+
+    <button
+      class="btn btn-small btn-primary"
+      (click)="payInvoice(invoice)"
+      *ngIf="invoice.status === 'Pending'">
+      Pay
+    </button>
+
+    <span class="badge"
+      [class.badge-warning]="invoice.status === 'Pending'"
+      [class.badge-success]="invoice.status === 'Paid'"
+      [class.badge-danger]="invoice.status === 'Overdue'">
+      {{ invoice.status }}
+    </span>
+
+    <div *ngIf="invoice.status === 'Paid' && invoice.paymentMethod" class="payment-meta">
+      <small>
+        Paid via {{ invoice.paymentMethod }}
+        <span *ngIf="invoice.paymentRef">({{ invoice.paymentRef }})</span>
+      </small>
+    </div>
+  </div>
+</div>
+
+
+  <div *ngIf="invoices.length === 0 && !loading" class="empty-state">
+    No invoices found
+  </div>
+</div>

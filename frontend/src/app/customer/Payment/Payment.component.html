@@ -1,0 +1,158 @@
+<div class="payment-page">
+  <div class="payment-card" *ngIf="!loading && invoice">
+
+    <!-- Hero Header -->
+    <div class="payment-header">
+      <div class="header-content">
+        <h2 class="title">Complete Payment</h2>
+        <p class="subtitle">Invoice #{{ invoice.invoiceNumber }}</p>
+      </div>
+      <div class="amount-badge">
+        <span class="currency">₹</span>
+        <span class="amount">{{ invoice.amount.toLocaleString('en-US', { minimumFractionDigits: 2,
+          maximumFractionDigits: 2 }) }}</span>
+      </div>
+    </div>
+
+    <!-- Alerts -->
+    <div *ngIf="successMessage" class="message success">
+      <div class="message-content">
+        <span class="icon">✓</span>
+        <span>{{ successMessage }}</span>
+      </div>
+      <button class="close-btn" (click)="successMessage = ''">&times;</button>
+    </div>
+    <div *ngIf="errorMessage" class="message error">
+      <div class="message-content">
+        <span class="icon">!</span>
+        <span>{{ errorMessage }}</span>
+      </div>
+      <button class="close-btn" (click)="errorMessage = ''">&times;</button>
+    </div>
+
+    <div class="payment-body">
+      <!-- Left Column: Payment Methods -->
+      <div class="payment-methods-section">
+        <h3>Select Payment Method</h3>
+
+        <div class="methods-grid">
+          <!-- QR Option -->
+          <label class="method-card" [class.active]="paymentMethod === 'QR'">
+            <input type="radio" name="method" value="QR" [(ngModel)]="paymentMethod" class="sr-only" />
+            <div class="method-icon">
+              <!-- SVG Icon for QR -->
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="3" y="3" width="7" height="7"></rect>
+                <rect x="14" y="3" width="7" height="7"></rect>
+                <rect x="14" y="14" width="7" height="7"></rect>
+                <rect x="3" y="14" width="7" height="7"></rect>
+              </svg>
+            </div>
+            <div class="method-name">QR Code</div>
+          </label>
+
+          <!-- UPI Option -->
+          <label class="method-card" [class.active]="paymentMethod === 'UPI'">
+            <input type="radio" name="method" value="UPI" [(ngModel)]="paymentMethod" class="sr-only" />
+            <div class="method-icon">
+              <!-- SVG Icon for UPI (smartphone) -->
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="5" y="2" width="14" height="20" rx="2" ry="2"></rect>
+                <line x1="12" y1="18" x2="12.01" y2="18"></line>
+              </svg>
+            </div>
+            <div class="method-name">UPI App</div>
+          </label>
+
+          <!-- CARD Option -->
+          <label class="method-card" [class.active]="paymentMethod === 'CARD'">
+            <input type="radio" name="method" value="CARD" [(ngModel)]="paymentMethod" class="sr-only" />
+            <div class="method-icon">
+              <!-- SVG Icon for Credit Card -->
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect>
+                <line x1="1" y1="10" x2="23" y2="10"></line>
+              </svg>
+            </div>
+            <div class="method-name">Credit/Debit</div>
+          </label>
+        </div>
+      </div>
+
+      <!-- Right Column: Form Panel -->
+      <div class="payment-details-section">
+
+        <div class="panel-placeholder" *ngIf="!paymentMethod">
+          <p>Please select a payment method from the left to continue.</p>
+        </div>
+
+        <!-- QR Panel -->
+        <div class="details-panel slide-in" *ngIf="paymentMethod === 'QR'">
+          <h4>Scan to Pay</h4>
+          <p class="instructions">Open any UPI app (GPay, PhonePe, Paytm) and scan the code below:</p>
+          <div class="qr-wrapper">
+            <img [src]="fakeQrDataUrl" alt="Payment QR Code" class="qr-image" />
+          </div>
+          <div class="upi-badge-container">
+            <span class="upi-pill">UPI: {{ upiId }}</span>
+          </div>
+        </div>
+
+        <!-- UPI Panel -->
+        <div class="details-panel slide-in" *ngIf="paymentMethod === 'UPI'">
+          <h4>UPI Payment</h4>
+          <p class="instructions">Enter the following Virtual Payment Address (VPA) into your UPI app to transfer funds
+            securely.</p>
+          <div class="upi-box">
+            <input type="text" [value]="upiId" readonly class="styled-input readonly-input" />
+            <button class="copy-btn" title="Copy to clipboard" type="button" (click)="copyToClipboard(upiId)">
+              Copy
+            </button>
+          </div>
+        </div>
+
+        <!-- CARD Panel -->
+        <div class="details-panel slide-in" *ngIf="paymentMethod === 'CARD'">
+          <h4>Card Payment Form</h4>
+          <p class="instructions">Enter your card details safely below. (For demo purposes, only the last 4 digits are
+            required).</p>
+
+          <div class="form-group">
+            <label for="cardNumber">Card Number (Last 4 digits)</label>
+            <div class="input-with-icon">
+              <span class="input-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"
+                  stroke="currentColor" stroke-width="2">
+                  <rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect>
+                  <line x1="1" y1="10" x2="23" y2="10"></line>
+                </svg>
+              </span>
+              <input id="cardNumber" type="text" maxlength="4" class="styled-input pl-icon" placeholder="• • • •"
+                [(ngModel)]="cardLast4" />
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div> <!-- /payment-body -->
+
+    <!-- Footer Actions -->
+    <div class="payment-footer">
+      <button class="btn btn-secondary" type="button" (click)="backToBilling()">Return to Billing</button>
+      <button class="btn btn-primary btn-large" type="button" (click)="confirmPayment()"
+        [disabled]="!paymentMethod || loading">
+        Pay ₹{{ invoice.amount.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) }}
+      </button>
+    </div>
+
+  </div> <!-- /payment-card -->
+
+  <!-- Loading State -->
+  <div *ngIf="loading && !invoice" class="loading-container">
+    <div class="spinner"></div>
+    <p>Loading payment details...</p>
+  </div>
+</div>

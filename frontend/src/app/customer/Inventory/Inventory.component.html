@@ -1,0 +1,74 @@
+<div class="section-card">
+  <div class="section-header">
+    <h2 class="section-title">My Inventory</h2>
+  </div>
+
+  <div class="filters">
+    <input
+      class="filter-input"
+      type="text"
+      placeholder="Search item / SKU"
+      [(ngModel)]="searchText"
+      (input)="applyFilters()"
+    >
+
+    <select
+      class="filter-input"
+      [(ngModel)]="selectedRack"
+      (change)="applyFilters()"
+    >
+      <option>All Racks</option>
+      <option *ngFor="let location of availableLocations" [value]="location">{{ location }}</option>
+    </select>
+  </div>
+
+  <br>
+
+  <div *ngIf="loading" class="loading-message">Loading inventory...</div>
+
+  <table *ngIf="!loading">
+    <thead>
+      <tr>
+        <th>Item Name</th>
+        <th>SKU</th>
+        <th>QTY</th>
+        <th>Location</th>
+        <th>Type</th>
+        <th>Date</th>
+        <th>Status</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <tr *ngFor="let row of filteredInventory">
+        <td>{{ row.item }}</td>
+        <td>{{ row.sku }}</td>
+        <td>{{ row.qty }}</td>
+        <td>{{ row.location }}</td>
+        <td>
+          <span
+            class="badge"
+            [ngClass]="row.requestType === 'Inbound' ? 'badge-inbound' : 'badge-outbound'"
+          >
+            {{ row.requestType || 'Inbound' }}
+          </span>
+        </td>
+        <td>{{ (row.inboundDate || row.outboundDate) | date:'shortDate' }}</td>
+        <td>
+          <span
+            class="badge"
+            [ngClass]="row.status === 'Active' ? 'success' : 'danger'"
+          >
+            {{ row.status }}
+          </span>
+        </td>
+      </tr>
+
+      <tr *ngIf="filteredInventory.length === 0 && !loading">
+        <td colspan="7" style="text-align:center;">
+          No inventory items found. Items will appear here after manager accepts your inbound requests.
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

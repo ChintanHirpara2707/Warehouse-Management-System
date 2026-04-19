@@ -1,0 +1,361 @@
+<div class="dashboard-shell">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="sidebar-header">
+      <img src="assets/अनंतावेयर.png" alt="AnantaWare Logo" class="navbar-logo">
+    </div>
+
+    <nav class="nav-menu">
+      <div class="nav-item" [class.active]="activeSection === 'dashboard'" (click)="setActiveSection('dashboard')">
+        <span class="nav-label">Dashboard</span>
+      </div>
+      <div class="nav-item" [class.active]="activeSection === 'users'" (click)="setActiveSection('users')">
+        <span class="nav-label">User Management</span>
+      </div>
+      <div class="nav-item" [class.active]="activeSection === 'billing'" (click)="setActiveSection('billing')">
+        <span class="nav-label">Billing Rules</span>
+      </div>
+      <div class="nav-item" [class.active]="activeSection === 'system'" (click)="setActiveSection('system')">
+        <span class="nav-label">System Settings</span>
+      </div>
+
+      <div class="nav-divider"></div>
+
+      <div class="nav-item logout" (click)="logout()">
+        Logout
+      </div>
+    </nav>
+  </aside>
+
+  <!-- MAIN -->
+  <main class="main-content">
+
+    <!-- HEADER -->
+    <header class="top-header">
+      <div class="header-left">
+        <div class="breadcrumb">Admin / {{ activeSection | titlecase }}</div>
+        <h1 class="page-title">Welcome, {{ adminName }}</h1>
+      </div>
+
+      <div class="header-right">
+        <div class="profile-menu">
+          <div class="profile-avatar">{{ adminName && adminName[0] ? adminName[0].toUpperCase() : 'A' }}</div>
+          <div class="profile-info">
+            <div class="profile-name">{{ adminName }}</div>
+            <div class="profile-role">Administrator</div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- CONTENT -->
+    <div class="content-area">
+
+      <!-- Messages -->
+      <div class="message error" *ngIf="errorMessage" (click)="errorMessage = ''">
+        <div class="message-content">
+          <span class="icon">!</span>
+          <span>{{ errorMessage }}</span>
+        </div>
+        <span class="close-btn">&times;</span>
+      </div>
+      <div class="message success" *ngIf="successMessage" (click)="successMessage = ''">
+        <div class="message-content">
+          <span class="icon">✓</span>
+          <span>{{ successMessage }}</span>
+        </div>
+        <span class="close-btn">&times;</span>
+      </div>
+
+      <!-- DASHBOARD SECTION -->
+      <div *ngIf="activeSection === 'dashboard'" class="dashboard-content slide-in">
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-title">Total Users</div>
+            <div class="stat-value">{{ systemStats.totalUsers }}</div>
+            <div class="stat-subtitle">Registered Users</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-title">Customers</div>
+            <div class="stat-value">{{ systemStats.totalCustomers }}</div>
+            <div class="stat-subtitle">Business Clients</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-title">Managers</div>
+            <div class="stat-value">{{ systemStats.totalManagers }}</div>
+            <div class="stat-subtitle">Warehouse Managers</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-title">Admins</div>
+            <div class="stat-value">{{ systemStats.totalAdmins }}</div>
+            <div class="stat-subtitle">System Administrators</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-title">Active Billing Rules</div>
+            <div class="stat-value">{{ systemStats.activeBillingRules }}</div>
+            <div class="stat-subtitle">Configured Rules</div>
+          </div>
+        </div>
+
+        <div class="section-card">
+          <div class="section-header">
+            <h2>Quick Actions</h2>
+          </div>
+          <div class="quick-actions">
+            <div class="action-pill primary" (click)="setActiveSection('users'); openUserForm()">
+              Add New User
+            </div>
+            <div class="action-pill primary" (click)="setActiveSection('billing'); openBillingForm()">
+              Add Billing Rule
+            </div>
+            <div class="action-pill secondary" (click)="setActiveSection('users')">
+              Manage Users
+            </div>
+            <div class="action-pill secondary" (click)="setActiveSection('billing')">
+              Manage Billing
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- USER MANAGEMENT SECTION -->
+      <div *ngIf="activeSection === 'users'" class="section-content slide-in">
+        <div class="section-card">
+          <div class="section-header">
+            <h2>User Management</h2>
+            <button class="action-pill primary" (click)="openUserForm()">+ Add User</button>
+          </div>
+
+          <div class="table-container">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Email</th>
+                  <th>Role</th>
+                  <th>Phone</th>
+                  <th>Company</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let user of users">
+                  <td><strong>{{ user.name }}</strong></td>
+                  <td class="text-muted">{{ user.email }}</td>
+                  <td>
+                    <span class="badge" [class.badge-customer]="user.role === 'CUSTOMER'"
+                      [class.badge-manager]="user.role === 'MANAGER'"
+                      [class.badge-admin]="user.role === 'ADMIN'">
+                      {{ user.role }}
+                    </span>
+                  </td>
+                  <td>{{ user.phone || '-' }}</td>
+                  <td>{{ user.company || '-' }}</td>
+                  <td>
+                    <div class="action-buttons">
+                      <button class="btn btn-secondary btn-small" (click)="openUserForm(user)">Edit</button>
+                      <button class="btn btn-danger btn-small" (click)="deleteUser(user._id!)"
+                        *ngIf="canDeleteUser(user)">Delete</button>
+                    </div>
+                  </td>
+                </tr>
+                <tr *ngIf="users.length === 0">
+                  <td colspan="6" class="empty-state">No users found</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- BILLING RULES SECTION -->
+      <div *ngIf="activeSection === 'billing'" class="section-content slide-in">
+        <div class="section-card">
+          <div class="section-header">
+            <h2>Billing Rules Management</h2>
+            <button class="action-pill primary" (click)="openBillingForm()">+ Add Rule</button>
+          </div>
+
+          <div class="table-container">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Type</th>
+                  <th>Rate</th>
+                  <th>Unit</th>
+                  <th>Description</th>
+                  <th>Status</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let rule of billingRules">
+                  <td><strong>{{ rule.name }}</strong></td>
+                  <td>
+                    <span class="badge badge-billing">{{ rule.type }}</span>
+                  </td>
+                  <td>₹{{ rule.rate.toFixed(2) }}</td>
+                  <td class="text-muted">{{ rule.unit }}</td>
+                  <td class="text-small text-muted">{{ rule.description }}</td>
+                  <td>
+                    <span class="badge" [class.badge-active]="rule.isActive" [class.badge-inactive]="!rule.isActive">
+                      {{ rule.isActive ? 'Active' : 'Inactive' }}
+                    </span>
+                  </td>
+                  <td>
+                    <div class="action-buttons">
+                      <button class="btn btn-secondary btn-small" (click)="openBillingForm(rule)">Edit</button>
+                      <button class="btn btn-small"
+                        [class.btn-warning]="rule.isActive"
+                        [class.btn-success]="!rule.isActive"
+                        (click)="toggleBillingRule(rule)">
+                        {{ rule.isActive ? 'Deactivate' : 'Activate' }}
+                      </button>
+                      <button class="btn btn-danger btn-small" (click)="rule._id && deleteBillingRule(rule._id)" *ngIf="rule._id">Delete</button>
+                    </div>
+                  </td>
+                </tr>
+                <tr *ngIf="billingRules.length === 0">
+                  <td colspan="7" class="empty-state">No billing rules found</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- SYSTEM SETTINGS SECTION -->
+      <div *ngIf="activeSection === 'system'" class="section-content slide-in">
+        <div class="section-card">
+          <div class="section-header">
+            <h2>System Settings</h2>
+          </div>
+          <div class="settings-list">
+            <div class="setting-item">
+              <div class="setting-info">
+                <h3>System Information</h3>
+                <p>View and manage system-wide configurations</p>
+              </div>
+              <button class="btn btn-secondary">Configure</button>
+            </div>
+            <div class="setting-item">
+              <div class="setting-info">
+                <h3>Database Management</h3>
+                <p>Backup and restore database</p>
+              </div>
+              <button class="btn btn-secondary">Manage</button>
+            </div>
+            <div class="setting-item">
+              <div class="setting-info">
+                <h3>Email Configuration</h3>
+                <p>Configure SMTP settings for email notifications</p>
+              </div>
+              <button class="btn btn-secondary">Configure</button>
+            </div>
+            <div class="setting-item">
+              <div class="setting-info">
+                <h3>Security Settings</h3>
+                <p>Manage authentication and security policies</p>
+              </div>
+              <button class="btn btn-secondary">Configure</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </main>
+</div>
+
+<!-- USER FORM MODAL -->
+<div class="modal-overlay" *ngIf="showUserForm" (click)="closeUserForm()">
+  <div class="modal-content" (click)="$event.stopPropagation()">
+    <div class="modal-header">
+      <h3>{{ editingUser ? 'Edit User' : 'Add User' }}</h3>
+      <button class="modal-close" (click)="closeUserForm()">×</button>
+    </div>
+    <div class="modal-body">
+      <form (ngSubmit)="saveUser()">
+        <div class="form-group">
+          <label>Name *</label>
+          <input type="text" [(ngModel)]="userForm.name" name="name" required>
+        </div>
+        <div class="form-group">
+          <label>Email *</label>
+          <input type="email" [(ngModel)]="userForm.email" name="email" required [readonly]="!!editingUser">
+        </div>
+        <div class="form-group">
+          <label>Role *</label>
+          <select [(ngModel)]="userForm.role" name="role" required>
+            <option value="CUSTOMER">Customer</option>
+            <option value="MANAGER">Manager</option>
+            <option value="ADMIN">Admin</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Phone</label>
+          <input type="text" [(ngModel)]="userForm.phone" name="phone">
+        </div>
+        <div class="form-group">
+          <label>Company</label>
+          <input type="text" [(ngModel)]="userForm.company" name="company">
+        </div>
+        <div class="form-actions">
+          <button type="button" class="btn btn-secondary" (click)="closeUserForm()">Cancel</button>
+          <button type="submit" class="action-pill primary">Save</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- BILLING RULE FORM MODAL -->
+<div class="modal-overlay" *ngIf="showBillingForm" (click)="closeBillingForm()">
+  <div class="modal-content" (click)="$event.stopPropagation()">
+    <div class="modal-header">
+      <h3>{{ editingBilling ? 'Edit Billing Rule' : 'Add Billing Rule' }}</h3>
+      <button class="modal-close" (click)="closeBillingForm()">×</button>
+    </div>
+    <div class="modal-body">
+      <form (ngSubmit)="saveBillingRule()">
+        <div class="form-group">
+          <label>Rule Name *</label>
+          <input type="text" [(ngModel)]="billingForm.name" name="name" required>
+        </div>
+        <div class="form-group">
+          <label>Type *</label>
+          <select [(ngModel)]="billingForm.type" name="type" required>
+            <option value="storage">Storage</option>
+            <option value="handling">Handling</option>
+            <option value="service">Service</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Rate (₹) *</label>
+          <input type="number" [(ngModel)]="billingForm.rate" name="rate" step="0.01" min="0" required>
+        </div>
+        <div class="form-group">
+          <label>Unit *</label>
+          <input type="text" [(ngModel)]="billingForm.unit" name="unit" required
+            placeholder="e.g., per sqft/month, per item">
+        </div>
+        <div class="form-group">
+          <label>Description *</label>
+          <textarea [(ngModel)]="billingForm.description" name="description" rows="3" required></textarea>
+        </div>
+        <div class="form-group">
+          <label class="checkbox-label">
+            <input type="checkbox" [(ngModel)]="billingForm.isActive" name="isActive">
+            Active
+          </label>
+        </div>
+        <div class="form-actions">
+          <button type="button" class="btn btn-secondary" (click)="closeBillingForm()">Cancel</button>
+          <button type="submit" class="action-pill primary">Save</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

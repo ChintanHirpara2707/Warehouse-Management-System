@@ -1,0 +1,145 @@
+<div class="dashboard-shell">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="sidebar-header">
+      <img src="assets/अनंतावेयर.png" alt="AnantaWare Logo" class="navbar-logo">
+    </div>
+
+    <nav class="nav-menu">
+      <div class="nav-item active" (click)="navigateTo('dashboard')">
+        <span class="nav-label">Dashboard</span>
+      </div>
+
+      <div class="nav-item" (click)="goToInventory()">
+        <span class="nav-label">Inventory</span>
+      </div>
+
+      <div class="nav-item" (click)="goToServiceRequests()">
+        <span class="nav-label">Service Requests</span>
+      </div>
+
+      <div class="nav-item" (click)="goToBilling()">
+        <span class="nav-label">Billing</span>
+      </div>
+
+      <div class="nav-item" (click)="goToReports()">
+        <span class="nav-label">Reports</span>
+      </div>
+
+      <div class="nav-divider"></div>
+
+      <div class="nav-item logout" (click)="logout()">
+        Logout
+      </div>
+    </nav>
+  </aside>
+
+  <!-- MAIN -->
+  <main class="main-content">
+
+    <!-- HEADER -->
+    <header class="top-header">
+      <div>
+        <div class="breadcrumb">Dashboard / Overview</div>
+        <h1 class="page-title">Welcome, {{ customerName }}</h1>
+      </div>
+
+      <div class="profile-menu" (click)="goToProfile()">
+        <div class="profile-avatar">
+          {{ customerName[0] }}
+        </div>
+        <div class="profile-info">
+          <div class="profile-name">{{ customerName }}</div>
+          <div class="profile-role">Customer</div>
+        </div>
+      </div>
+    </header>
+
+    <!-- CONTENT -->
+    <div class="content-area">
+
+      <div *ngIf="isDefaultView">
+
+        <div *ngIf="loading" class="loading-card">
+          Loading warehouse metrics...
+        </div>
+
+        <div class="stats-grid" *ngIf="!loading">
+
+          <div class="stat-card">
+            <div class="stat-title">Total Inventory</div>
+            <div class="stat-value">{{ stats.totalInventory }}</div>
+            <div class="stat-subtitle">Active Items Stored</div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-title">Total Quantity</div>
+            <div class="stat-value">{{ stats.totalQuantity }}</div>
+            <div class="stat-subtitle">Units in Storage</div>
+          </div>
+
+          <div class="stat-card warning storage-metric" [style.--aw-storage-used]="stats.storageUsed">
+            <div class="storage-radial" aria-hidden="true"></div>
+            <div class="stat-title">Storage Used</div>
+            <div class="stat-value ">{{ stats.storageUsed }}%</div>
+            <div class="stat-subtitle">Allocated Capacity (%)</div>
+            <div class="storage-bar-track" aria-hidden="true">
+              <div class="storage-bar-fill"></div>
+            </div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-title">Inbound This Week</div>
+            <div class="stat-value">{{ stats.inboundThisWeek }}</div>
+            <div class="stat-subtitle">Incoming Shipments</div>
+          </div>
+
+          <div class="stat-card warning">
+            <div class="stat-title">Rejected Requests</div>
+            <div class="stat-value">{{ stats.rejectedRequests }}</div>
+            <div class="stat-subtitle">Declined Requests</div>
+          </div>
+
+          <div class="stat-card" *ngIf="stats.pendingRequests > 0">
+            <div class="stat-title">Pending Requests</div>
+            <div class="stat-value">{{ stats.pendingRequests }}</div>
+            <div class="stat-subtitle">Awaiting Action</div>
+          </div>
+
+        </div>
+
+        <!-- QUICK ACTIONS -->
+        <div class="section-card" *ngIf="!loading">
+          <div class="section-header">
+            <h2>Quick Actions</h2>
+          </div>
+
+          <div class="quick-actions">
+            <div class="action-pill primary" (click)="goToServiceRequests()">
+              Request Inbound
+            </div>
+
+            <div class="action-pill primary" (click)="goToServiceRequests()">
+              Request Outbound
+            </div>
+
+            <div class="action-pill secondary" (click)="goToReports()">
+              Generate Report
+            </div>
+
+            <div class="action-pill secondary" (click)="goToBilling()">
+              View Invoices
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <router-outlet></router-outlet>
+
+    </div>
+
+  </main>
+
+</div>

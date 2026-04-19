@@ -1,0 +1,69 @@
+<div class="section-card">
+  <div class="section-header">
+    <h2 class="section-title">Interactive Reports Dashboard</h2>
+  </div>
+
+  <div *ngIf="errorMessage" class="message error" (click)="errorMessage = ''">
+    {{ errorMessage }} <span class="close">×</span>
+  </div>
+
+  <div *ngIf="loading" class="loading">Loading charts data...</div>
+
+  <div class="charts-grid" *ngIf="!loading">
+    
+    <!-- Inventory Breakdown Chart -->
+    <div class="chart-card">
+      <div class="chart-header">
+        <h4>Inventory Breakdown</h4>
+        <div class="chart-subtitle">Quantities by Item (Total unique items: {{ totalInventoryItems }})</div>
+      </div>
+      <div class="chart-container">
+        <canvas baseChart
+          [data]="inventoryChartData"
+          [options]="inventoryChartOptions"
+          [type]="inventoryChartType">
+        </canvas>
+      </div>
+      <div class="empty-chart-data" *ngIf="totalInventoryItems === 0">
+        No inventory data to display.
+      </div>
+    </div>
+
+    <!-- Activity Overview Chart -->
+    <div class="chart-card">
+      <div class="chart-header">
+        <h4>Activity Overview</h4>
+        <div class="chart-subtitle">Inbound vs Outbound Requests (Total: {{ totalActivityOptions }})</div>
+      </div>
+      <div class="chart-container">
+        <canvas baseChart
+          [data]="activityChartData"
+          [options]="activityChartOptions"
+          [type]="activityChartType">
+        </canvas>
+      </div>
+      <div class="empty-chart-data" *ngIf="totalActivityOptions === 0">
+        No request activity to display.
+      </div>
+    </div>
+
+    <!-- Billing Summary Chart -->
+    <div class="chart-card">
+      <div class="chart-header">
+        <h4>Billing Summary</h4>
+        <div class="chart-subtitle">Paid vs Pending Amounts (₹{{ totalBilledAmount | number:'1.2-2' }})</div>
+      </div>
+      <div class="chart-container">
+        <canvas baseChart
+          [data]="billingChartData"
+          [options]="billingChartOptions"
+          [type]="billingChartType">
+        </canvas>
+      </div>
+      <div class="empty-chart-data" *ngIf="totalBilledAmount === 0">
+        No billing activity to display.
+      </div>
+    </div>
+
+  </div>
+</div>

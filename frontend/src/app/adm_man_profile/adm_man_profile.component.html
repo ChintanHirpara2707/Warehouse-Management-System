@@ -1,0 +1,130 @@
+<div class="profile-page">
+
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <div class="navbar-left">
+      <img src="assets/अनंतावेयर.png" alt="AnantaWare Logo" class="navbar-logo">
+    </div>
+    <div class="navbar-right">
+      <button class="back-btn" (click)="goBack()">← Back to Dashboard</button>
+    </div>
+  </nav>
+
+  <!-- PROFILE CONTAINER -->
+  <div class="profile-container">
+    <div class="profile-header">
+      <h2>My Profile</h2>
+      <p class="profile-subtitle">Manage your account and security settings</p>
+    </div>
+
+    <div class="profile-body">
+      <!-- SUCCESS/ERROR MESSAGES -->
+      <div *ngIf="successMessage" class="message success">
+        <div class="message-content">
+          <span class="icon">✓</span>
+          <span>{{ successMessage }}</span>
+        </div>
+      </div>
+      <div *ngIf="errorMessage" class="message error">
+        <div class="message-content">
+          <span class="icon">!</span>
+          <span>{{ errorMessage }}</span>
+        </div>
+      </div>
+
+      <!-- EDIT BUTTON -->
+      <div class="edit-toggle">
+        <button type="button" class="btn-toggle" [ngClass]="{ 'active': isEditing }" (click)="toggleEdit()">
+          {{ isEditing ? '✓ Done Editing' : '✎ Edit Profile' }}
+        </button>
+      </div>
+
+      <!-- PROFILE FORM -->
+      <form (ngSubmit)="updateProfile()" class="profile-form">
+
+        <div class="form-section">
+          <h3>Personal Information</h3>
+          <div class="form-grid">
+            <div class="input-group">
+              <label>Full Name *</label>
+              <input type="text" [(ngModel)]="user.name" name="name" class="styled-input"
+                [attr.readonly]="!isEditing ? '' : null" required>
+            </div>
+
+            <div class="input-group">
+              <label>Email Address *</label>
+              <input type="email" [(ngModel)]="user.email" name="email" class="styled-input readonly-input" readonly
+                disabled>
+              <small>Email cannot be changed</small>
+            </div>
+
+            <div class="input-group">
+              <label>Phone Number</label>
+              <input type="tel" [(ngModel)]="user.phone" name="phone" class="styled-input"
+                [attr.readonly]="!isEditing ? '' : null">
+            </div>
+          </div>
+        </div>
+
+        <div class="form-section">
+          <h3>Business Information</h3>
+
+          <div class="input-group">
+            <label>Company/Role</label>
+            <input type="text" [(ngModel)]="user.company" name="company" class="styled-input"
+              [attr.readonly]="!isEditing ? '' : null">
+          </div>
+
+          <div class="input-group">
+            <label>Address</label>
+            <textarea [(ngModel)]="user.address" name="address" class="styled-input"
+              [attr.readonly]="!isEditing ? '' : null" rows="3"></textarea>
+          </div>
+        </div>
+
+        <div class="form-actions" *ngIf="isEditing">
+          <button type="button" class="btn btn-secondary" (click)="toggleEdit()">Cancel</button>
+          <button type="submit" class="btn btn-primary">Save Changes</button>
+        </div>
+      </form>
+
+      <!-- SECURITY DIVIDER -->
+      <div class="section-divider"></div>
+
+      <!-- CHANGE PASSWORD -->
+      <div class="password-section">
+        <div class="section-header-compact">
+          <h3>Security</h3>
+          <button type="button" class="btn-toggle small" (click)="toggleChangePassword()">
+            {{ isChangingPassword ? 'Cancel' : 'Change Password' }}
+          </button>
+        </div>
+
+        <form *ngIf="isChangingPassword" (ngSubmit)="changePassword()" class="profile-form slide-down">
+          <div class="form-grid">
+            <div class="input-group">
+              <label>Current Password</label>
+              <input type="password" [(ngModel)]="currentPassword" name="currentPassword" class="styled-input" required>
+            </div>
+
+            <div class="input-group">
+              <label>New Password</label>
+              <input type="password" [(ngModel)]="newPassword" name="newPassword" class="styled-input" required>
+            </div>
+
+            <div class="input-group">
+              <label>Confirm New Password</label>
+              <input type="password" [(ngModel)]="confirmPassword" name="confirmPassword" class="styled-input" required>
+            </div>
+          </div>
+
+          <div class="form-actions">
+            <button type="submit" class="btn btn-primary">Update Password</button>
+          </div>
+        </form>
+      </div>
+
+    </div> <!-- /profile-body -->
+  </div> <!-- /profile-container -->
+
+</div>
