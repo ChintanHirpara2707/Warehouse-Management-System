@@ -1,7 +1,6 @@
 
 # AnantaWare  
 
-# 🚀 AnantaWare  
 
 ### Warehouse Service & Inventory Management System (MEAN Stack)
 
