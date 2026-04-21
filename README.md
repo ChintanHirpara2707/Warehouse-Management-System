@@ -154,7 +154,6 @@ To build a scalable, real-world warehouse service system using MEAN stack with p
 ## 📌 Author
 
 Chintan Hirpara  
-MEAN Stack Developer
 
 ---
 
